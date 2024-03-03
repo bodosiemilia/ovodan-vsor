@@ -1,0 +1,55 @@
+#include <LiquidCrystal.h>
+
+// LCD kijelző lábak
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+// Struktúra a gyerekek adatainak tárolására
+struct Child {
+  String name;
+  int age;
+  String classroom;
+};
+
+// Gyerekek tömbje
+Child children[10]; // Maximum 10 gyerek
+
+// Gyerekek száma
+int numChildren = 0;
+
+// Gyerek hozzáadása a névsorhoz
+void addChild(String name, int age, String classroom) {
+  if (numChildren < 10) {
+    children[numChildren].name = name;
+    children[numChildren].age = age;
+    children[numChildren].classroom = classroom;
+    numChildren++;
+  }
+}
+
+// Névsor kiíratása a kijelzőre
+void printNameList() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Ovoda nevsora:");
+  for (int i = 0; i < numChildren; i++) {
+    lcd.setCursor(0, i + 1);
+    lcd.print(children[i].name);
+    lcd.setCursor(10, i + 1);
+    lcd.print(children[i].age);
+    lcd.setCursor(15, i + 1);
+    lcd.print(children[i].classroom);
+  }
+}
+
+void setup() {
+  lcd.begin(16, 2);
+  addChild("Anna", 4, "Kiscsoport");
+  addChild("Bence", 5, "Nagycsoport");
+  addChild("Cili", 3, "Kiscsoport");
+  printNameList();
+}
+
+void loop() {
+  // Nem csinálunk semmit a loopban
+}
